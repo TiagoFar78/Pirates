@@ -1,9 +1,9 @@
 package net.tiagofar78.pirates.managers;
 
+import net.tiagofar78.pirates.game.PGame;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import net.tiagofar78.pirates.game.PGame;
 
 public class GameManager {
 
@@ -42,4 +42,3 @@ public class GameManager {
     }
 
 }
-
