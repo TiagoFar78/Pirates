@@ -9,12 +9,22 @@ import java.util.List;
 
 public class PiratesTeam<T extends PiratesPlayer> extends MinigameTeam<T> {
 
+    private int spawnPointsRemaining;
+
     public PiratesTeam(TeamPreset preset) {
         super(preset);
     }
 
     public PiratesTeam(String name, ChatColor chatColor, List<T> members) {
         super(name, chatColor, members);
+    }
+
+    public int getSpawnPointsRemaining() {
+        return spawnPointsRemaining;
+    }
+
+    public void setSpawnPointsRemaining(int spawnPoints) {
+        this.spawnPointsRemaining = spawnPoints;
     }
 
 }

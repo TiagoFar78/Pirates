@@ -26,9 +26,13 @@ public class PiratesMap extends MinigameMap {
         }
     }
 
-    public Location getRandomActiveSpawnPoint(int teamIndex) {
+    public List<SpawnPoint> getActiveSpawnPoints(int teamIndex) {
         List<SpawnPoint> spawnPoints = teamsSpawnPoints.get(teamIndex);
-        List<SpawnPoint> activeSpawnPoints = spawnPoints.stream().filter(p -> !p.isBroken).toList();
+        return spawnPoints.stream().filter(p -> !p.isBroken).toList();
+    }
+
+    public Location getRandomActiveSpawnPoint(int teamIndex) {
+        List<SpawnPoint> activeSpawnPoints = getActiveSpawnPoints(teamIndex);
         if (activeSpawnPoints.isEmpty()) {
             return null;
         }

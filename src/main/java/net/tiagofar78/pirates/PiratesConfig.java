@@ -22,11 +22,14 @@ public class PiratesConfig {
     }
 
     public String worldName;
+    public int secondsToRespawn;
+
 
     private PiratesConfig() {
         YamlConfiguration config = getYamlConfiguration();
 
         worldName = config.getString("WorldName");
+        secondsToRespawn = config.getInt("SecondsToRespawn");
     }
 
 }
