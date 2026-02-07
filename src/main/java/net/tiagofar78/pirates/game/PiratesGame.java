@@ -22,7 +22,6 @@ public class PiratesGame extends Minigame {
 
     public PiratesGame(MinigameMap map, MinigameSettings settings, List<Collection<String>> parties) {
         super(map, settings, parties);
-        // TODO
     }
 
 //  #########################################
@@ -40,8 +39,7 @@ public class PiratesGame extends Minigame {
 
     @Override
     public Phase newOngoingPhase() {
-        // TODO
-        return null;
+        return new OngoingPhase(this);
     }
 
     @Override
@@ -105,10 +103,10 @@ public class PiratesGame extends Minigame {
         executeRespawnCountdown(player, spawnPointLocation);
     }
 
-    private void spawn(PiratesPlayer player, Location loc) {
+    protected void spawn(PiratesPlayer player, Location spawnPointLoc) {
         player.setSpectator(false);
         player.spawn();
-        BukkitPlayer.teleport(player, loc.clone().add(0, 1, 0));
+        BukkitPlayer.teleport(player, spawnPointLoc.clone().add(0, 1, 0));
     }
 
     public void kill(String killerName, String killedName) {
