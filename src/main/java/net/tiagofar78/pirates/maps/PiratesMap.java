@@ -26,6 +26,18 @@ public class PiratesMap extends MinigameMap {
         }
     }
 
+    public boolean isSpawnPoint(Location loc) {
+        for (List<SpawnPoint> teamSpawnPoints : teamsSpawnPoints) {
+            for (SpawnPoint spawnPoint : teamSpawnPoints) {
+                if (spawnPoint.location.equals(loc)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     public List<Location> getActiveSpawnPoints(int teamIndex) {
         List<SpawnPoint> spawnPoints = teamsSpawnPoints.get(teamIndex);
         return spawnPoints.stream().filter(p -> !p.isBroken).map(p -> p.location).toList();
@@ -52,6 +64,19 @@ public class PiratesMap extends MinigameMap {
                 }
             }
         }
+    }
+
+    public int indexOfTeamWithSpawnPoint(Location location) {
+        for (int i = 0; i < teamsSpawnPoints.size(); i++) {
+            for (SpawnPoint spawnPoint : teamsSpawnPoints.get(i)) {
+                Location loc = spawnPoint.location;
+                if (loc.equals(location)) {
+                    return i;
+                }
+            }
+        }
+
+        return -1;
     }
 
     @Override

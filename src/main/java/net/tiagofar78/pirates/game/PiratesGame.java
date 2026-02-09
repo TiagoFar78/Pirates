@@ -150,6 +150,26 @@ public class PiratesGame extends Minigame {
         respawn(player);
     }
 
+    public void breakSpawnPoint(String playerName, Location location) {
+        PiratesMap map = (PiratesMap) getMap();
+        MinigamePlayer player = getPlayer(playerName);
+        int teamIndex = getTeamIndex(player);
+        if (map.getActiveSpawnPoints(teamIndex).contains(location)) {
+            // TODO Send cant break own spawnpoint message
+            return;
+        }
+
+        map.destroySpawnPoint(location);
+
+        int indexOfTeamWithSpawnPoint = map.indexOfTeamWithSpawnPoint(location);
+        MinigameTeam<? extends MinigamePlayer> teamWithBrokenSpawnPoint = getTeams().get(indexOfTeamWithSpawnPoint);
+        // TODO Broadcast break
+
+        if (map.getActiveSpawnPoints(indexOfTeamWithSpawnPoint).size() == 0) {
+            // TODO warn no spawnpoints
+        }
+    }
+
     @Override
     public void resolvePlayerOutcomes() {
         // TODO statistics
