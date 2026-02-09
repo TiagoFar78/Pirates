@@ -30,10 +30,11 @@ public class PiratesGame extends Minigame {
 
     @Override
     public void load() {
-        getMap().load();
+        PiratesMap map = (PiratesMap) getMap();
+        map.load();
         for (int i = 0; i < getTeams().size(); i++) {
             PiratesTeam<? extends MinigamePlayer> team = (PiratesTeam<? extends MinigamePlayer>) getTeams().get(i);
-            team.setSpawnPointsRemaining(((PiratesMap) getMap()).getActiveSpawnPoints(i).size());
+            team.setSpawnPointsRemaining(map.getActiveSpawnPoints(i).size());
         }
     }
 

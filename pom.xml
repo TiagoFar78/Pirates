@@ -32,6 +32,11 @@
             <artifactId>grindstone</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>io.github.tiagofar78</groupId>
+            <artifactId>menucompass</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <repositories>

@@ -1,0 +1,40 @@
+Tank:
+  TextualInfoAt: "kits.tank"
+  Representation: "IRON_CHESTPLATE"
+  '1':
+    Item: "STONE_SWORD"
+  '2':
+    Item: "WOOD"
+    InitialAmount: 48
+    Refill:
+      Interval: 15
+      Amount: 16
+Healer:
+  TextualInfoAt: "kits.healer"
+  Representation: "HEALTH_POTION"
+  '1':
+    Item: "STONE_SWORD"
+  '2':
+    Item: "WOOD"
+    InitialAmount: 48
+    Refill:
+      Interval: 15
+      Amount: 16
+  '3':
+    Item: "HEALTH_POTION"
+    Cooldown: 3
+  '4':
+    Item: "HEALTH_POTION"
+    Cooldown: 3
+Assassin:
+  TextualInfoAt: "kits.assassin"
+  Representation: "DIAMOND_SWORD"
+  '1':
+    Item: "DIAMOND_SWORD"
+GOD:
+  TextualInfoAt: "kits.god"
+  Representation: "GOD_APPLE"
+  Permission: "Pirates.Kit.God"
+  '1':
+    Item: "DIAMOND_SWORD"
+  
