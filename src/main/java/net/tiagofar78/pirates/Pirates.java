@@ -1,5 +1,8 @@
 package net.tiagofar78.pirates;
 
+import net.tiagofar78.pirates.listener.GameRestrictionsListener;
+import net.tiagofar78.pirates.listener.PlayerListener;
+
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -25,7 +28,8 @@ public class Pirates extends JavaPlugin {
 
         // TODO Register gamemodes
 
-//        getServer().getPluginManager().registerEvents(new ???Listener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerListener(), this);
+        getServer().getPluginManager().registerEvents(new GameRestrictionsListener(), this);
     }
 
 }
