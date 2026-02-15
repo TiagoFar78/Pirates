@@ -43,7 +43,7 @@ public class PlayerListener implements Listener {
 
         if (e.getFinalDamage() >= entity.getHealth()) {
             e.setCancelled(true);
-            double maxHealth = entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+            double maxHealth = entity.getAttribute(Attribute.MAX_HEALTH).getValue();
             entity.setHealth(maxHealth);
             game.kill(damagerName, damagedName);
         }

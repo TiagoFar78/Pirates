@@ -1,7 +1,10 @@
 package net.tiagofar78.pirates.kits;
 
+import io.github.tiagofar78.grindstone.bukkit.BukkitPlayer;
 import io.github.tiagofar78.menucompass.InventoryButton;
 import io.github.tiagofar78.menucompass.InventoryGUI;
+
+import net.kyori.adventure.text.Component;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -61,7 +64,7 @@ public class KitsMenu extends InventoryGUI {
     private void clickAction(InventoryClickEvent e, KitFactory kit) {
         Player player = (Player) e.getWhoClicked();
         if (!player.hasPermission(kit.getPermission())) {
-            // TODO Send not allowed message
+            BukkitPlayer.sendMessage(player, player.locale(), "pirates.selectkit.not_allowed", kit.getName());
             return;
         }
 
@@ -71,7 +74,7 @@ public class KitsMenu extends InventoryGUI {
 
     @Override
     protected Inventory createInventory(Player player) {
-        String title = "Select Kit"; // TODO Change to language dependent
+        Component title = BukkitPlayer.translateMessage(player.locale(), "pirates.kitsmenu.title");
         int lines = 6;
         return Bukkit.createInventory(null, lines * LINE_SIZE, title);
     }

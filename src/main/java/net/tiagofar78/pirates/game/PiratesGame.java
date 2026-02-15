@@ -15,6 +15,7 @@ import net.tiagofar78.pirates.maps.PiratesMap;
 
 import org.bukkit.Location;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -110,6 +111,17 @@ public class PiratesGame extends Minigame {
         BukkitPlayer.teleport(player, spawnPointLoc.clone().add(0, 1, 0));
     }
 
+    public void death(String playerName) {
+        PiratesPlayer player = (PiratesPlayer) getPlayer(playerName);
+        PiratesTeam<? extends MinigamePlayer> team = (PiratesTeam<? extends MinigamePlayer>) getTeam(player);
+        String messageKey = "pirates.game.kill.water";
+        if (team.getSpawnPointsRemaining() == 0) {
+            messageKey += ".final";
+        }
+        lobbyBroadcast(messageKey, playerName, team.getChatColor().asHexString());
+        respawn(player);
+    }
+
     public void kill(String killerName, String killedName) {
         kill((PiratesPlayer) getPlayer(killerName), (PiratesPlayer) getPlayer(killedName));
     }
@@ -118,7 +130,11 @@ public class PiratesGame extends Minigame {
         killer.killed();
         killed.died();
 
-        // TODO Send kill message
+        PiratesTeam<? extends MinigamePlayer> killedTeam = (PiratesTeam<? extends MinigamePlayer>) getTeam(killed);
+        String killedColor = killedTeam.getChatColor().asHexString();
+        String killerColor = getTeam(killer).getChatColor().asHexString();
+        String messageKey = killedTeam.getSpawnPointsRemaining() != 0 ? "pirates.game.kill" : "pirates.game.kill.final";
+        lobbyBroadcast(messageKey, killed.getName(), killedColor, killer.getName(), killerColor);
         respawn(killed);
     }
 
@@ -132,7 +148,13 @@ public class PiratesGame extends Minigame {
             return;
         }
 
-        // TODO send respawn time
+        BukkitPlayer.sendTitleMessage(
+                player,
+                "pirates.game.respawn.title",
+                new Object[0],
+                "pirates.game.respawn.subtitle",
+                new Object[]{secondsRemaining}
+        );
 
         Scheduler.runLater(1, new Runnable() {
 
@@ -155,7 +177,7 @@ public class PiratesGame extends Minigame {
         MinigamePlayer player = getPlayer(playerName);
         int teamIndex = getTeamIndex(player);
         if (map.getActiveSpawnPoints(teamIndex).contains(location)) {
-            // TODO Send cant break own spawnpoint message
+            BukkitPlayer.sendMessage(player, "pirates.game.spawnpoint.own");
             return;
         }
 
@@ -163,10 +185,31 @@ public class PiratesGame extends Minigame {
 
         int indexOfTeamWithSpawnPoint = map.indexOfTeamWithSpawnPoint(location);
         MinigameTeam<? extends MinigamePlayer> teamWithBrokenSpawnPoint = getTeams().get(indexOfTeamWithSpawnPoint);
-        // TODO Broadcast break
 
         if (map.getActiveSpawnPoints(indexOfTeamWithSpawnPoint).size() == 0) {
-            // TODO warn no spawnpoints
+            lobbyBroadcast(
+                    "pirates.game.spawnpoint.breakall",
+                    teamWithBrokenSpawnPoint.getName(),
+                    teamWithBrokenSpawnPoint.getChatColor()
+            );
+
+            for (MinigamePlayer playerOnTeam : teamWithBrokenSpawnPoint.getMembers()) {
+                BukkitPlayer.sendTitleMessage(
+                        playerOnTeam,
+                        "pirates.game.spawnpoint.breakall.title",
+                        new Object[0],
+                        "pirates.game.spawnpoint.breakall.subtitle",
+                        new Object[0]
+                );
+            }
+        } else {
+            lobbyBroadcast(
+                    "pirates.game.spawnpoint.break",
+                    teamWithBrokenSpawnPoint.getName(),
+                    teamWithBrokenSpawnPoint.getChatColor(),
+                    playerName,
+                    getTeams().get(teamIndex).getChatColor()
+            );
         }
     }
 
@@ -175,9 +218,37 @@ public class PiratesGame extends Minigame {
         // TODO statistics
     }
 
+//  ########################################
+//  #               Messages               #
+//  ########################################
+
     @Override
-    public void sendGameExplanationMessage() {
-        // TODO
+    public String gameExplanationMessageKey() {
+        return "pirates.game.explanation";
+    }
+
+    @Override
+    public String highlightedStatMessageKey() {
+        return "pirates.game.highlightedstat";
+    }
+
+    @Override
+    public String[][] playersWithBestStats() {
+        String[][] playersWithBestStats = new String[3][2];
+
+        List<MinigamePlayer> allPlayers = new ArrayList<>();
+        for (MinigameTeam<? extends MinigamePlayer> team : getTeams()) {
+            allPlayers.addAll(team.getMembers());
+        }
+
+        allPlayers.sort((a, b) -> Integer.compare(((PiratesPlayer) b).getKills(), ((PiratesPlayer) a).getKills()));
+
+        for (int i = 0; i < 3 && i < allPlayers.size(); i++) {
+            playersWithBestStats[i][0] = allPlayers.get(i).getName();
+            playersWithBestStats[i][1] = String.valueOf(((PiratesPlayer) allPlayers.get(i)).getKills());
+        }
+
+        return playersWithBestStats;
     }
 
 }

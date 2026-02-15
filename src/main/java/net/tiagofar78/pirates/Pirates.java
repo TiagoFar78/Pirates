@@ -1,5 +1,7 @@
 package net.tiagofar78.pirates;
 
+import io.github.tiagofar78.messagesrepo.MessagesRepo;
+
 import net.tiagofar78.pirates.listener.GameRestrictionsListener;
 import net.tiagofar78.pirates.listener.PlayerListener;
 
@@ -23,6 +25,8 @@ public class Pirates extends JavaPlugin {
         }
 
         instance = (Pirates) Bukkit.getServer().getPluginManager().getPlugin("TF_Pirates");
+
+        MessagesRepo.getTranslations().register(this.getClassLoader(), "/lang");
 
         PiratesConfig.load();
 

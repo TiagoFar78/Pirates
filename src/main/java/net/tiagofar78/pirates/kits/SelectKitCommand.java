@@ -1,5 +1,7 @@
 package net.tiagofar78.pirates.kits;
 
+import io.github.tiagofar78.grindstone.bukkit.BukkitPlayer;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -28,12 +30,12 @@ public class SelectKitCommand implements CommandExecutor {
         }
 
         if (!player.hasPermission(factory.getPermission())) {
-            // TODO send not allowed message
+            BukkitPlayer.sendMessage(player, player.locale(), "pirates.selectkit.not_allowed", factory.getName());
             return true;
         }
 
         KitsManager.assignKitToPlayer(player.getName(), factory);
-        // TODO send success message
+        BukkitPlayer.sendMessage(player, player.locale(), "pirates.selectkit.success", factory.getName());
 
         return true;
     }
