@@ -25,6 +25,15 @@ public class PiratesGame extends Minigame {
         super(map, settings, parties);
     }
 
+    public PiratesGame(
+            MinigameMap map,
+            MinigameSettings settings,
+            List<Collection<String>> parties,
+            boolean keepTeams
+    ) {
+        super(map, settings, parties, keepTeams);
+    }
+
 //  #########################################
 //  #                 Lobby                 #
 //  #########################################

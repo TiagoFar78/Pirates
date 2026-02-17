@@ -11,6 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.weather.WeatherChangeEvent;
 
 public class GameRestrictionsListener implements Listener {
 
@@ -45,6 +46,14 @@ public class GameRestrictionsListener implements Listener {
     @EventHandler
     public void avoidBlockBreak(BlockBreakEvent e) {
         if (isInPiratesGame(e.getPlayer().getName())) {
+            e.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void alwaysSunny(WeatherChangeEvent e) {
+        String piratesWorldName = e.getWorld().getName();
+        if (e.getWorld().getName().equals(piratesWorldName)) {
             e.setCancelled(true);
         }
     }
